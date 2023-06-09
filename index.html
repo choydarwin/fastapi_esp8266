@@ -1,0 +1,59 @@
+<html>
+<head>
+    <title>Real-Time Plot</title>
+    <style>
+        #plot-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+    
+        img {
+            max-width: 100%;
+            height: auto;
+            max-height: 80vh;
+            font-size: 18px;
+        }
+    </style>
+    
+    <script>
+        var ws = new WebSocket("ws://" + window.location.host + "/ws");
+
+        ws.onmessage = function(event) {
+            var plotData = event.data;  // Get the received plot data
+
+            // Decode the Base64-encoded plot data
+            var plotDataDecoded = atob(plotData);
+
+            // Create a Uint8Array from the decoded plot data
+            var uint8Array = new Uint8Array(plotDataDecoded.length);
+            for (var i = 0; i < plotDataDecoded.length; i++) {
+                uint8Array[i] = plotDataDecoded.charCodeAt(i);
+            }
+
+            // Create a Blob from the Uint8Array
+            var blob = new Blob([uint8Array], {type: "image/png"});
+
+            // Create object URL from the Blob
+            var plotDataUrl = URL.createObjectURL(blob);
+
+            // Update the plot image source
+            var plotImg = document.getElementById("plot-img");
+            plotImg.src = plotDataUrl;
+        };
+
+        ws.onclose = function(event) {
+            console.log("WebSocket connection closed: ", event);
+        };
+    </script>
+</head>
+<body>
+    <div>
+        <h1>Real-Time Plot</h1>
+        <div id="plot-container">
+            <img id="plot-img" src="" alt="Real-Time Plot">
+        </div>
+    </div>
+</body>
+</html>
