@@ -2,14 +2,14 @@
 #include <PubSubClient.h>
 
 // Replace with your network credentials
-const char* ssid = "TP-Link_77E8";
-const char* password = "84119513";
+const char* ssid = "SSID";
+const char* password = "PASSWORD";
 
 // Replace with your MQTT broker details
-const char* mqttServer = "192.168.0.103";  //192.168.0.104,172.21.55.199
+const char* mqttServer = "192.168.0.103"; 
 const int mqttPort = 1883;
-//const char* mqttUsername = "marmota";
-//const char* mqttPassword = "marmota";
+//const char* mqttUsername = "USERNAME";
+//const char* mqttPassword = "MQTTPASSWORD";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
